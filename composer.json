@@ -24,7 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Appcoachs\\Bundle\MaterialBundle\\": ""
+      "Appcoachs\\Bundle\\MaterialBundle\\": ""
     }
   },
   "extra": {
