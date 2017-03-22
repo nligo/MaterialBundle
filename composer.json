@@ -1,5 +1,5 @@
 {
-  "name": "Platform/MaterialBundle",
+  "name": "platform/MaterialBundle",
   "type": "symfony-bundle",
   "description": "appcoachs ad material bundle",
   "keywords": ["appcoachs", "symfony2", "material", "bundle"],
