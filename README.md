@@ -1,5 +1,4 @@
 # MaterialBundle
-# This project is no longer maintained by KnpLabs
 Use [MaterialBundle](https://github.com/nligo/MaterialBundle) instead
 -------------------------------------------------------------------
 
