@@ -42,3 +42,33 @@ In `app/config/routing.yml` introduced in the routing file:
         resource: "@AppcoachsMaterialBundle/Resources/config/routing.yml"
         prefix:   /
 
+In `Appcoachs/Bundle/ManageBundle/Document/Creative.php` New fields and generates get set method:
+
+    /**
+     * Creative Campaign
+     *
+     * @MongoDB\ReferenceOne(targetDocument="Appcoachs\Bundle\ManageBundle\Document\Campaign")
+     */
+    protected $campaign;
+    
+    /**
+     * Get campaign
+     *
+     * @return Appcoachs\Bundle\ManageBundle\Document\Campaign $campaign
+     */
+    public function getCampaign()
+    {
+        return $this->campaign;
+    }
+    
+
+    /**
+     * Set campaign
+     * @param Appcoachs\Bundle\ManageBundle\Document\Campaign $campaign
+     * @return self
+     */
+    public function setCampaign($campaign)
+    {
+        $this->campaign = $campaign;
+    }
+    
