@@ -1,5 +1,5 @@
 {
-  "name": "appcoachs/material-Bundle",
+  "name": "appcoachs/material-bundle",
   "type": "symfony-bundle",
   "description": "appcoachs ad material bundle",
   "keywords": ["appcoachs", "symfony2", "material", "bundle"],
