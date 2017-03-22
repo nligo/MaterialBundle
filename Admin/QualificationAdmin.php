@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is the advertiser's admin.
+ * This file is the advertisers qualification admin.
  *
  * (c)  coffey  <http://www.symfonychina.org>
  *
@@ -16,23 +16,20 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 /**
  * @author  coffey  <coffey.gao@appcoachs.com>
- * Class AdvertiserAdmin
+ * Class QualificationAdmin
  * @package Appcoachs\Bundle\MaterialBundle\Admin
  */
-class AdvertiserAdmin extends BaseAdmin
+class QualificationAdmin extends BaseAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper->add('username', 'text');
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagridMapper->add('username');
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('username');
     }
 }

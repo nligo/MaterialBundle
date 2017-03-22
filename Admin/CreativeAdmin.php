@@ -67,7 +67,7 @@ class CreativeAdmin extends BaseAdmin
                 'route' => array('name' => 'admin_appcoachs_manage_media_list')
                 )
             )
-            ->add( 'name', null,
+            ->addIdentifier( 'name', null,
                 array(
                     'label' => 'Creative',
                     'route' => array( 'name' => 'edit')
