@@ -1,14 +1,14 @@
 {
   "name": "nligo/material-bundle",
   "type": "symfony-bundle",
-  "description": "appcoachs ad material bundle",
-  "keywords": ["appcoachs", "symfony2", "material", "bundle"],
+  "description": "appcoachs ad material package",
+  "keywords": ["appcoachs", "symfony2", "Material", "bundle"],
   "homepage": "http://github.com/nligo/MaterialBundle",
   "license": "MIT",
   "authors": [
     {
       "name": "coffey",
-      "homepage": "http://www.nligo.com"
+      "homepage": "http://nligo.com"
     },
     {
       "name": "coffey",
@@ -24,7 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Appcoachs\\Bundle\\MaterialBundle\\": ""
+      "Appcoachs\\Bundle\MaterialBundle\\": ""
     }
   },
   "extra": {
