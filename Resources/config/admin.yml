@@ -1,0 +1,27 @@
+parameters:
+    sonata.material.admin.material.class: Appcoachs\Bundle\MaterialBundle\Admin\MaterialAdmin
+
+services:
+    appcoachs.admin.material.advertiser:
+        class: Appcoachs\Bundle\MaterialBundle\Admin\AdvertiserAdmin
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, label: "Advertiser Review" }
+        arguments:
+            - ~
+            - Appcoachs\Bundle\MaterialBundle\Document\advertiser
+            - AppcoachsMaterialBundle:PropertyAdmin
+#        calls:
+#            - [setTranslationDomain, [SonataAdminBundle]]
+#            - [setTemplate, [edit, AppcoachsMaterialBundle:advertiserAdmin:edit.html.twig]]
+
+
+    appcoachs.admin.material.creative:
+        class: Appcoachs\Bundle\MaterialBundle\Admin\CreativeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Creative Review", label: "Creative Review" }
+        arguments:
+            - ~
+            - Appcoachs\Bundle\ManageBundle\Document\Creative
+            - AppcoachsMaterialBundle:Creative
+        calls:
+            - [ setTranslationDomain, [SonataAdminBundle]]
