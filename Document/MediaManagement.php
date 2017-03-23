@@ -8,7 +8,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 /**
  * @MongoDB\Document(
  *      repositoryClass="Appcoachs\Bundle\MaterialBundle\Document\Repository\MediaManagement",
- *      collection="media"
+ *      collection="media_management"
  * )
  */
 class MediaManagement extends Base

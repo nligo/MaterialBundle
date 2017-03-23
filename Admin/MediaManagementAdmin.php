@@ -54,6 +54,20 @@ class MediaManagementAdmin extends BaseAdmin
     //  list fileds
     protected function configureListFields(ListMapper $listMapper)
     {
+        $listMapper
+
+            ->add('campaign.name', 'string', array('label' => 'Campaign Name', 'sortable' => false))
+            ->add('creative.name', 'string', array('label' => 'Creative Name', 'sortable' => false))
+            ->add('owner.username','string',array('label'=>''))
+        ;
+//            ->add('_action', 'actions', array(
+//                'actions' => array(
+//                    'edit' => array(),
+//                    'redirect_adgroup' => array(
+//                        'template' => 'AppcoachsManageBundle:CampaignAdmin:list__action_redirect_adgroup.html.twig',
+//                    ),
+//                )
+//            ))
     }
 
     protected function configureShowFields(ShowMapper $showMapper)
