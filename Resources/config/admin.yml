@@ -1,18 +1,25 @@
-parameters:
-    sonata.material.admin.material.class: Appcoachs\Bundle\MaterialBundle\Admin\MaterialAdmin
-
 services:
-    appcoachs.admin.material.qualification:
-        class: Appcoachs\Bundle\MaterialBundle\Admin\QualificationAdmin
+    appcoachs.admin.material.qualificationinfo:
+        class: Appcoachs\Bundle\MaterialBundle\Admin\QualificationInfoAdmin
         tags:
-            - { name: sonata.admin, manager_type: doctrine_mongodb, label: "Advertiser Review" }
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Advertiser Review",label: "Advertiser Review" }
         arguments:
             - ~
             - Appcoachs\Bundle\ManageBundle\Document\Qualification
-            - AppcoachsMaterialBundle:Qualification
+            - AppcoachsMaterialBundle:QualificationInfo
         calls:
             - [setTranslationDomain, [SonataAdminBundle]]
 
+    appcoachs.admin.material.qualificationinfo.review:
+        class: Appcoachs\Bundle\MaterialBundle\Admin\QualificationReviewedAdmin
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, label: 'Qualification Review' }
+        arguments:
+            - ~
+            - Appcoachs\Bundle\ManageBundle\Document\QualificationReviewed
+            - AppcoachsMaterialBundle:QualificationReviewed
+        calls:
+            - [ setTranslationDomain, [SonataAdminBundle]]
 
     appcoachs.admin.material.creative:
         class: Appcoachs\Bundle\MaterialBundle\Admin\CreativeAdmin

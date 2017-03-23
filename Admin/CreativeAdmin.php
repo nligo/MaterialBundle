@@ -14,6 +14,8 @@ use Appcoachs\Bundle\ManageBundle\Admin\BaseAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\FormEvent;
+
 /**
  * @author  coffey  <coffey.gao@appcoachs.com>
  * Class CreativeAdmin
@@ -26,13 +28,32 @@ class CreativeAdmin extends BaseAdmin
     {
 
         $formMapper
-            ->add('name')
-            ->add('media')
-            ->add('adgroup','choice',array(
-                'required'=>false
+            ->add('status', 'choice', array(
+                'required' => true,
+                'choices' => array('active' => 'active', 'pause' => 'pause'),
+                'data' => 'active',
+            ))
+            ->add('type', 'choice', array(
+                'required' => false,
+                'choices' => $choices = array('banner' => 'Banner', 'text' => 'Text', 'icon' => 'Icon'),
+                'data' => 'banner',
+            ))
+            ->add('name', 'text', array())
+            ->add('media', 'appcoachs_media_selector', array(
+                'model_manager' => $this->getModelManager(),
+                'class' => 'Appcoachs\Bundle\ManageBundle\Document\Media',
+                'provider' => 'sonata.media.provider.image',
+                'required' => false,
+                'btn_add' => false,
+                'attr' => array('data-sonata-select2' => 'false', 'class' => 'form-control')
             ))
             ->add('campaign')
-            ->add('type');
+            ->add('upload', 'sonata_media_type', array(
+                'provider' => 'sonata.media.provider.image',
+                'context' => 'default',
+                'required' => false,
+            ))
+        ;
     }
 
     //  input search condition
@@ -52,6 +73,12 @@ class CreativeAdmin extends BaseAdmin
                     'label' => 'Status'
                 )
             )
+            ->addIdentifier( 'name', null,
+                array(
+                    'label' => 'Creative',
+                    'route' => array( 'name' => 'edit')
+                )
+            )
             ->add('campaign.name', 'url',
                 array(
                 'label' => 'Campaign Name',
@@ -62,17 +89,12 @@ class CreativeAdmin extends BaseAdmin
                 'label' => 'Adgroup',
                 )
             )
-            ->add('media.name', 'url', array(
+            ->addIdentifier('media.name', 'url', array(
                 'label' => 'Active Video Media',
                 'route' => array('name' => 'admin_appcoachs_manage_media_list')
                 )
             )
-            ->addIdentifier( 'name', null,
-                array(
-                    'label' => 'Creative',
-                    'route' => array( 'name' => 'edit')
-                )
-            )
+
             ->add('createdAt','date',
                 array('label' => 'Created At')
             )

@@ -14,15 +14,14 @@ class CreativeController extends Controller
      *
      * @throws AccessDeniedException If access is not granted
      */
-    public function listAction($gid = null , $cid = null)
+    public function listAction()
     {
         if (false === $this->admin->isGranted('LIST')) {
             throw new AccessDeniedException();
         }
         $dm = $this->get('doctrine_mongodb')->getManager();
 
-        $adgroup = $dm->getRepository('AppcoachsManageBundle:Creative')->find($gid);
-
+        $creativeList = $dm->getRepository('AppcoachsManageBundle:Creative')->findAll();
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
 
@@ -38,9 +37,7 @@ class CreativeController extends Controller
             'actionForm' => $actionForm->createView(),
             'datagrid' => $datagrid,
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
-            'gid' => $gid,
-            'adgroup' => $adgroup,
-            'cid' => $cid,
+            'creativeList' => $creativeList,
         ));
     }
 }
