@@ -14,6 +14,8 @@ use Appcoachs\Bundle\ManageBundle\Admin\BaseAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\FormEvent;
 
 /**
@@ -23,6 +25,14 @@ use Symfony\Component\Form\FormEvent;
  */
 class CreativeAdmin extends BaseAdmin
 {
+    protected $baseRouteName = 'material_creative';
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('redirect_material_creative_review', $this->getRouterIdParameter().'/redirect_material_creative_review');
+    }
+
+
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -39,14 +49,7 @@ class CreativeAdmin extends BaseAdmin
                 'data' => 'banner',
             ))
             ->add('name', 'text', array())
-            ->add('media', 'appcoachs_media_selector', array(
-                'model_manager' => $this->getModelManager(),
-                'class' => 'Appcoachs\Bundle\ManageBundle\Document\Media',
-                'provider' => 'sonata.media.provider.image',
-                'required' => false,
-                'btn_add' => false,
-                'attr' => array('data-sonata-select2' => 'false', 'class' => 'form-control')
-            ))
+            ->add('media')
             ->add('campaign')
             ->add('upload', 'sonata_media_type', array(
                 'provider' => 'sonata.media.provider.image',
@@ -59,6 +62,7 @@ class CreativeAdmin extends BaseAdmin
     //  input search condition
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
+        $datagridMapper->add('status',null,array('label'=>'Status',));
         $datagridMapper->add('name',null,array('label'=>'Creative'));
         $datagridMapper->add('campaign.name',null,array('label'=>'Campaign'));
         $datagridMapper->add('adgroup.name',null,array('label'=>'Adgroup'));
@@ -73,25 +77,23 @@ class CreativeAdmin extends BaseAdmin
                     'label' => 'Status'
                 )
             )
-            ->addIdentifier( 'name', null,
-                array(
-                    'label' => 'Creative',
-                    'route' => array( 'name' => 'edit')
-                )
-            )
+            ->addIdentifier('name', null, array(
+                'label' =>  "Creative",
+                'route' => array('name' => 'show')
+            ))
             ->add('campaign.name', 'url',
                 array(
                 'label' => 'Campaign Name',
                 'route' => array('name' => 'appcoachs_campaign_list')
                 )
             )
+
             ->add('adgroup.name','url',array(
                 'label' => 'Adgroup',
                 )
             )
-            ->addIdentifier('media.name', 'url', array(
-                'label' => 'Active Video Media',
-                'route' => array('name' => 'admin_appcoachs_manage_media_list')
+            ->addIdentifier('media',null,array(
+                    'label' => "Active Video Media",
                 )
             )
 
@@ -100,10 +102,25 @@ class CreativeAdmin extends BaseAdmin
             )
             ->add('_action', 'actions', array(
                 'actions' => array(
-                    'edit' => array(),
-                    'delete' => array(),
+                    'edit' => array('label'=>'Media Management'),
+
                 )
             ))
         ;
+    }
+
+    protected function configureShowFields(ShowMapper $showMapper)
+    {
+        // Here we set the fields of the ShowMapper variable, $showMapper (but this can be called anything)
+        $showMapper
+
+            /*
+             * The default option is to just display the value as text (for boolean this will be 1 or 0)
+             */
+            ->add('name','string',array('label'=>'Creative'))
+            ->add('adgroup',null,array('label'=>'Adgroup'))
+            ->add('campaign','string',array('label'=>'Campaign'))
+        ;
+
     }
 }

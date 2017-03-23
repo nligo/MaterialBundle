@@ -5,7 +5,7 @@ namespace Appcoachs\Bundle\MaterialBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class CreativeController extends Controller
+class MediaManagementController extends Controller
 {
     /**
      * List action.
@@ -20,11 +20,9 @@ class CreativeController extends Controller
             throw new AccessDeniedException();
         }
         $dm = $this->get('doctrine_mongodb')->getManager();
-
-        $creativeList = $dm->getRepository('AppcoachsManageBundle:Creative')->findAll();
+        $creativeList = $dm->getRepository('AppcoachsMaterialBundle:MediaManagement')->findAll();
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
-
         $actionForm = $this->get('form.factory')->createNamedBuilder('', 'form')
             ->add('status','choice',array('label' => 'status','choices' => array('active' => 'active', 'pause' => 'pause'),))
             ->getForm();
