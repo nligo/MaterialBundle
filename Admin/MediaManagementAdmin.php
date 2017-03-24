@@ -46,7 +46,7 @@ class MediaManagementAdmin extends BaseAdmin
             ->add('status')
             ->add('mediaName', 'string', array('label' => 'Media Name', 'sortable' => true))
             ->add('siteId', 'string', array('label' => 'Site Id', 'sortable' => true))
-            ->add('dspId', 'string', array('label' => 'dspId / Username', 'sortable' => true))
+            ->add('dspId', 'string', array('label' => 'dspId / Username Name', 'sortable' => true))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array(),

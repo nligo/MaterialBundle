@@ -3,6 +3,7 @@
 namespace Appcoachs\Bundle\MaterialBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MediaController extends Controller
@@ -41,18 +42,7 @@ class MediaController extends Controller
     public function adunitAction($id = 0,$type = 0)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $info = $dm->getRepository('AppcoachsManageBundle:Media')->find($id);
-        if($type == 0)
-        {
-            $info->setReviewStatus('Reviewing by Media');
-        }
-        else
-        {
-            $info->setReviewStatus('Rejected by Media');
-        }
-
-        $dm->persist($info);
-        $dm->flush($info);
+        $info = $dm->getRepository('AppcoachsMaterialBundle:Media')->find($id);
         $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.material.media')->generateUrl('listbyowner', array('id' => $info->getOwner()->getId()));
         return new RedirectResponse($url);
     }

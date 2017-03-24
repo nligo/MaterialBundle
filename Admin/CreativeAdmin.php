@@ -75,7 +75,13 @@ class CreativeAdmin extends BaseAdmin
     //  list fileds
     protected function configureListFields(ListMapper $listMapper)
     {
+
         $listMapper
+            ->add('id', 'string',
+                array(
+                    'label' => 'ID'
+                )
+            )
             ->add('status', 'string',
                 array(
                     'label' => 'Status'
@@ -105,6 +111,7 @@ class CreativeAdmin extends BaseAdmin
             ->add('createdAt','date',
                 array('label' => 'Created At')
             )
+
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array('label'=>'Media Management'),
@@ -115,6 +122,24 @@ class CreativeAdmin extends BaseAdmin
                 )
             ))
         ;
+        $historicalCommissions = $this
+            ->getConfigurationPool()
+            ->getContainer()
+            ->get('doctrine_mongodb')
+            ->getRepository('AppcoachsManageBundle:Creative')
+            ->find($listMapper->get('id'));
+
+        if($this->isChild())
+        {
+            $contract = $this->getParent()->getObject($this->getParent()->getRequest()->get('id'));
+            $customFields = $contract->getCustomFields();
+            dump($customFields);exit;
+            foreach ($customFields as $customField) {
+                $listMapper->add($customField[0], null, array(
+                    'label' => $customField[1]
+                ));
+            }
+        }
     }
 
     protected function configureShowFields(ShowMapper $showMapper)
