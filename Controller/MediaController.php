@@ -5,7 +5,7 @@ namespace Appcoachs\Bundle\MaterialBundle\Controller;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class MediaManagementController extends Controller
+class MediaController extends Controller
 {
     /**
      * List action.
@@ -20,11 +20,11 @@ class MediaManagementController extends Controller
             throw new AccessDeniedException();
         }
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $list = $dm->getRepository('AppcoachsManageBundle:MediaManagement')->findAll();
+        $list = $dm->getRepository('AppcoachsManageBundle:Media')->findAll();
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
         $actionForm = $this->get('form.factory')->createNamedBuilder('', 'form')
-            ->add('status','choice',array('label' => 'status','choices' => array('active' => 'active', 'Inactive' => 'Inactive'),))
+            ->add('status','choice',array('label' => 'status','choices' => array('active' => 'active', 'pause' => 'pause'),))
             ->getForm();
 
         // set the theme for the current Admin Form

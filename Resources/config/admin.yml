@@ -27,20 +27,31 @@ services:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Creative Review", label: "Creative Review" }
         arguments:
             - ~
-            - Appcoachs\Bundle\ManageBundle\Document\Creative
+            - Appcoachs\Bundle\MaterialBundle\Document\Creative
             - AppcoachsMaterialBundle:Creative
         calls:
             - [ setTranslationDomain, [SonataAdminBundle]]
 
 
 
-    appcoachs.admin.mediamanagement:
-        class: Appcoachs\Bundle\MaterialBundle\Admin\MediaManagementAdmin
+    appcoachs.material.media:
+        class: Appcoachs\Bundle\MaterialBundle\Admin\MediaAdmin
         tags:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Media Management", label: "Media Management" }
         arguments:
             - ~
             - Appcoachs\Bundle\MaterialBundle\Document\Media
+            - AppcoachsMaterialBundle:Media
+        calls:
+            - [ setTranslationDomain, [SonataAdminBundle]]
+
+    appcoachs.admin.material.mediamanagement:
+        class: Appcoachs\Bundle\MaterialBundle\Admin\MediaManagementAdmin
+        tags:
+            - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Media Management", label: "Media Management" }
+        arguments:
+            - ~
+            - Appcoachs\Bundle\MaterialBundle\Document\MediaManagement
             - AppcoachsMaterialBundle:MediaManagement
         calls:
             - [ setTranslationDomain, [SonataAdminBundle]]

@@ -21,8 +21,7 @@ class CreativeController extends Controller
             throw new AccessDeniedException();
         }
         $dm = $this->get('doctrine_mongodb')->getManager();
-
-        $creativeList = $dm->getRepository('AppcoachsManageBundle:Creative')->findAll();
+        $list = $dm->getRepository('AppcoachsManageBundle:Creative')->findAll();
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
 
@@ -37,17 +36,17 @@ class CreativeController extends Controller
             'form' => $formView,
             'actionForm' => $actionForm->createView(),
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
-            'creativeList' => $creativeList,
+            'list' => $list,
         ));
     }
 
-    public function MediamanagementAction($id)
+    public function MediaAction($id)
     {
 
         $dm = $this->get('doctrine_mongodb')->getManager();
         $creativeInfo = $dm->getRepository('AppcoachsManageBundle:Creative')->find($id);
         $ownerId = $creativeInfo->getOwner()->getId() ? $creativeInfo->getOwner()->getId() : 0;
-        $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.admin.mediamanagement')->generateUrl('listbyowner', array('id' => $ownerId));
+        $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.material.media')->generateUrl('listbyowner', array('id' => $ownerId));
         return new RedirectResponse($url);
     }
 }

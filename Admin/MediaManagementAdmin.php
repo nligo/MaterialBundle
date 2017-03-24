@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is the Media Management's admin.
+ * This file is the Media ManagementAdmin's admin.
  *
  * (c)  coffey  <http://www.symfonychina.org>
  *
@@ -25,12 +25,11 @@ use Symfony\Component\Form\FormEvent;
  */
 class MediaManagementAdmin extends BaseAdmin
 {
-    protected $baseRouteName = 'material_media_management';
+    protected $baseRouteName = 'material_mediamanagement';
 
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->add('listbyowner', $this->getRouterIdParameter().'/media-list-by-owner');
-
+        $collection->add('delete');
     }
 
     //  input search condition
@@ -45,21 +44,41 @@ class MediaManagementAdmin extends BaseAdmin
         $listMapper
 
             ->add('status')
-            ->add('name', 'string', array('label' => 'Media', 'sortable' => true))
-            ->add('owner.username','string',array('label'=>'Advertiser'))
-            ->add('reviewStatus','string',array('label'=>'Review Status'))
-        ;
-//            ->add('_action', 'actions', array(
-//                'actions' => array(
-//                    'edit' => array(),
-//                    'redirect_adgroup' => array(
-//                        'template' => 'AppcoachsManageBundle:CampaignAdmin:list__action_redirect_adgroup.html.twig',
-//                    ),
-//                )
-//            ))
+            ->add('mediaName', 'string', array('label' => 'Media Name', 'sortable' => true))
+            ->add('siteId', 'string', array('label' => 'Site Id', 'sortable' => true))
+            ->add('dspId', 'string', array('label' => 'dspId / Username', 'sortable' => true))
+            ->add('_action', 'actions', array(
+                'actions' => array(
+                    'edit' => array(),
+                )
+            ));
+
     }
 
-    protected function configureShowFields(ShowMapper $showMapper)
+    protected function configureFormFields(FormMapper $formMapper)
     {
+        $formMapper
+            ->with('Media Management')
+            ->add('mediaName','text',array('label'=>'Media Name'),array())
+            ->add('status', 'choice', array(
+                'required' => true,
+                'choices' => array('active' => 'active', 'Inacitve' => 'Inacitve'),
+                'data' => 'active',
+                'label' =>  "Status"
+            ))
+            ->add('siteId','text',array('label'=>'Site id'),array())
+            ->add('allowRdStatus','choice', array(
+                'required' => true,
+                'choices' => array('Yes' => 'Yes', 'No' => 'No'),
+                'data' => 'No',
+                'label' =>  "Allowed to redirect ad request to other DSP"
+            ))
+            ->add('dspId','text',array('label'=>'DSPID/Username'),array())
+            ->add('dspToken','password',array('label'=>'Token/Password'),array())
+
+            ->end()
+
+
+        ;
     }
 }
