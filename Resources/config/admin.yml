@@ -40,7 +40,7 @@ services:
             - { name: sonata.admin, manager_type: doctrine_mongodb, group: "Media Management", label: "Media Management" }
         arguments:
             - ~
-            - Appcoachs\Bundle\MaterialBundle\Document\MediaManagement
+            - Appcoachs\Bundle\MaterialBundle\Document\Media
             - AppcoachsMaterialBundle:MediaManagement
         calls:
             - [ setTranslationDomain, [SonataAdminBundle]]

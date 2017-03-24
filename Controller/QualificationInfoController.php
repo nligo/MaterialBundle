@@ -42,45 +42,5 @@ class QualificationInfoController extends Controller
         ));
     }
 
-    protected function redirectTo($object)
-    {
-        $url = false;
 
-        if (null !== $this->get('request')->get('btn_update_and_list')) {
-            $url = $this->admin->generateUrl('list');
-        }
-
-        if (null !== $this->get('request')->get('btn_create_and_list')) {
-            $url = $this->admin->generateUrl('list');
-        }
-
-        if (null !== $this->get('request')->get('btn_create_and_create')) {
-            $params = array();
-            if ($this->admin->hasActiveSubClass()) {
-                $params['subclass'] = $this->get('request')->get('subclass');
-            }
-            $url = $this->admin->generateUrl('create', $params);
-        }
-
-        if (null !== $this->get('request')->get('btn_create_and_next')) {
-            $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.admin.adgroup')->generateUrl('create', array('cid' => $object->getId()));
-        }
-
-        if ($this->getRestMethod() == 'DELETE') {
-            $url = $this->admin->generateUrl('list');
-        }
-
-        if (!$url) {
-            $url = $this->admin->generateObjectUrl('edit', $object);
-        }
-
-        return new RedirectResponse($url);
-    }
-
-
-
-    public function redirectQualificationReviewAction($id = null)
-    {
-        return $this->redirect($this->generateUrl('appcoachs_material_qualificationinfo_reviewed_list',array('qid'=>$id)));
-    }
 }

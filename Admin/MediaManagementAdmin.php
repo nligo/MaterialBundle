@@ -29,20 +29,8 @@ class MediaManagementAdmin extends BaseAdmin
 
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->add('redirect_material_media_management_review', $this->getRouterIdParameter().'/redirect_material_media_management_review');
-    }
+        $collection->add('listbyowner', $this->getRouterIdParameter().'/media-list-by-owner');
 
-
-    // Fields to be shown on create/edit forms
-    protected function configureFormFields(FormMapper $formMapper)
-    {
-
-        $formMapper
-            ->add('owner')
-            ->add('campaign')
-            ->add('creative', 'sonata_type_model_list', [
-            ],['admin_code'    => 'appcoachs.admin.material.creative'])
-            ->end();
     }
 
     //  input search condition
@@ -56,9 +44,10 @@ class MediaManagementAdmin extends BaseAdmin
     {
         $listMapper
 
-            ->add('campaign.name', 'string', array('label' => 'Campaign Name', 'sortable' => false))
-            ->add('creative.name', 'string', array('label' => 'Creative Name', 'sortable' => false))
-            ->add('owner.username','string',array('label'=>''))
+            ->add('status')
+            ->add('name', 'string', array('label' => 'Media', 'sortable' => true))
+            ->add('owner.username','string',array('label'=>'Advertiser'))
+            ->add('reviewStatus','string',array('label'=>'Review Status'))
         ;
 //            ->add('_action', 'actions', array(
 //                'actions' => array(

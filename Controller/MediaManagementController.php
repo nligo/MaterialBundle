@@ -14,13 +14,13 @@ class MediaManagementController extends Controller
      *
      * @throws AccessDeniedException If access is not granted
      */
-    public function listAction()
+    public function listByownerAction($adId = null)
     {
         if (false === $this->admin->isGranted('LIST')) {
             throw new AccessDeniedException();
         }
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $creativeList = $dm->getRepository('AppcoachsMaterialBundle:MediaManagement')->findAll();
+        $list = $dm->getRepository('AppcoachsManageBundle:Media')->findAll();
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
         $actionForm = $this->get('form.factory')->createNamedBuilder('', 'form')
@@ -30,11 +30,11 @@ class MediaManagementController extends Controller
         // set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
         return $this->render($this->admin->getTemplate('list'), array(
-            'action' => 'list',
+            'action' => 'listbyowner',
             'form' => $formView,
             'actionForm' => $actionForm->createView(),
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
-            'creativeList' => $creativeList,
+            'list' => $list,
         ));
     }
 }

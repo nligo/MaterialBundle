@@ -3,6 +3,7 @@
 namespace Appcoachs\Bundle\MaterialBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class CreativeController extends Controller
@@ -38,5 +39,15 @@ class CreativeController extends Controller
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
             'creativeList' => $creativeList,
         ));
+    }
+
+    public function MediamanagementAction($id)
+    {
+
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $creativeInfo = $dm->getRepository('AppcoachsManageBundle:Creative')->find($id);
+        $ownerId = $creativeInfo->getOwner()->getId() ? $creativeInfo->getOwner()->getId() : 0;
+        $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.admin.mediamanagement')->generateUrl('listbyowner', array('id' => $ownerId));
+        return new RedirectResponse($url);
     }
 }

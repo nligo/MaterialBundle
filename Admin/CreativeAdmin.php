@@ -29,7 +29,8 @@ class CreativeAdmin extends BaseAdmin
 
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->add('redirect_material_creative_review', $this->getRouterIdParameter().'/redirect_material_creative_review');
+
+        $collection->add('Mediamanagement', $this->getRouterIdParameter().'/media-management');
     }
 
 
@@ -49,7 +50,7 @@ class CreativeAdmin extends BaseAdmin
                 'data' => 'banner',
             ))
             ->add('name', 'text', array())
-            ->add('media')
+
             ->add('campaign')
             ->add('upload', 'sonata_media_type', array(
                 'provider' => 'sonata.media.provider.image',
@@ -92,10 +93,7 @@ class CreativeAdmin extends BaseAdmin
                 'label' => 'Adgroup',
                 )
             )
-            ->addIdentifier('media',null,array(
-                    'label' => "Active Video Media",
-                )
-            )
+
 
             ->add('createdAt','date',
                 array('label' => 'Created At')
@@ -103,6 +101,9 @@ class CreativeAdmin extends BaseAdmin
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array('label'=>'Media Management'),
+                    'Media Management' => array(
+                        'template' => 'AppcoachsMaterialBundle:CreativeAdmin:Mediamanagement.html.twig'
+                    )
 
                 )
             ))
@@ -121,6 +122,12 @@ class CreativeAdmin extends BaseAdmin
             ->add('adgroup',null,array('label'=>'Adgroup'))
             ->add('campaign','string',array('label'=>'Campaign'))
         ;
+    }
 
+    public function prePersist($object)
+    {
+        $user = $this->getConfigurationPool()->getContainer()->get('security.token_storage')->getToken()->getUser();
+        $object->setOwner($user);
+        parent::prePersist($object);
     }
 }
