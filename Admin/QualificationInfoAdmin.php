@@ -33,7 +33,6 @@ class QualificationInfoAdmin extends BaseAdmin
 
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->add('redirect_qualification_review', $this->getRouterIdParameter().'/redirect_qualification_review');
     }
 
     protected function configureListFields(ListMapper $listMapper)
