@@ -32,6 +32,8 @@ services:
         calls:
             - [ setTranslationDomain, [SonataAdminBundle]]
 
+
+
     appcoachs.admin.mediamanagement:
         class: Appcoachs\Bundle\MaterialBundle\Admin\MediaManagementAdmin
         tags:
