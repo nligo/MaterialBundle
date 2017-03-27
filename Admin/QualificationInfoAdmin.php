@@ -49,9 +49,9 @@ class QualificationInfoAdmin extends BaseAdmin
                 'actions' => array(
                     'edit' => array(
                     ),
-                    'redirect_qualification_review' => array(
-                        'template' => 'AppcoachsMaterialBundle:QualificationInfoAdmin:qualification_review.html.twig',
-                    ),
+//                    'redirect_qualification_review' => array(
+//                        'template' => 'AppcoachsMaterialBundle:QualificationInfoAdmin:qualification_review.html.twig',
+//                    ),
                 ),
             ));
     }

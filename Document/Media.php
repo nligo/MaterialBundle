@@ -68,37 +68,7 @@ class Media extends \Appcoachs\Bundle\ManageBundle\Document\Media
      */
     protected $bitrate;
 
-    /**
-     * @MongoDB\String
-     */
-    protected $reviewStatus;
 
-    public function __construct()
-    {
-        $this->setReviewStatus('Ready');
-    }
-
-    /**
-     * Set reviewStatus
-     *
-     * @param string $reviewStatus
-     * @return self
-     */
-    public function setReviewStatus($reviewStatus)
-    {
-        $this->reviewStatus = $reviewStatus;
-        return $this;
-    }
-
-    /**
-     * Get reviewStatus
-     *
-     * @return string $reviewStatus
-     */
-    public function getReviewStatus()
-    {
-        return $this->reviewStatus;
-    }
 
 
 

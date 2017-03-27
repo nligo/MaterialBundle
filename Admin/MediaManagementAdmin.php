@@ -75,7 +75,6 @@ class MediaManagementAdmin extends BaseAdmin
             ))
             ->add('dspId','text',array('label'=>'DSPID/Username'),array())
             ->add('dspToken','password',array('label'=>'Token/Password'),array())
-
             ->end()
 
 

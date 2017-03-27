@@ -37,13 +37,19 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
      */
     protected $type;
 
-
     /**
      * Creative Media
      *
-     * @MongoDB\ReferenceOne(targetDocument="Appcoachs\Bundle\MaterialBundle\Document\MediaManagement", cascade={"persist"})
+     * @MongoDB\ReferenceOne(targetDocument="Appcoachs\Bundle\MaterialBundle\Document\Media", cascade={"persist"})
      */
     protected $media;
+
+    /**
+     * Creative MediaManagement
+     *
+     * @MongoDB\ReferenceOne(targetDocument="Appcoachs\Bundle\MaterialBundle\Document\MediaManagement", cascade={"persist"})
+     */
+    protected $mediaManagement;
 
     /**
      * Creative Owner
@@ -67,6 +73,13 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     protected $campaign;
 
     /**
+     * Creative Status
+     *
+     * @MongoDB\String
+     */
+    protected $status;
+
+    /**
      * Get id
      *
      * @return id $id
@@ -74,6 +87,28 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string $status
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -123,7 +158,7 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     /**
      * Set media
      *
-     * @param \Appcoachs\Bundle\MaterialBundle\Document\MediaMangement $media
+     * @param \Appcoachs\Bundle\MaterialBundle\Document\Media $media
      * @return self
      */
     public function setMedia($media)
@@ -134,11 +169,32 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     /**
      * Get media
      *
-     * @return \Appcoachs\Bundle\MaterialBundle\Document\MediaMangement $media
+     * @param \Appcoachs\Bundle\MaterialBundle\Document\Media $media
      */
     public function getMedia()
     {
         return $this->media;
+    }
+
+    /**
+     * Set mediaManagement
+     *
+     * @param \Appcoachs\Bundle\MaterialBundle\Document\MediaMangement $mediaManagement
+     * @return self
+     */
+    public function setMediaManagement($mediaManagement)
+    {
+        $this->mediaManagement = $mediaManagement;
+    }
+
+    /**
+     * Get MediaManagement
+     *
+     * @return \Appcoachs\Bundle\MaterialBundle\Document\MediaMangement $mediaManagement
+     */
+    public function getMediaManagement()
+    {
+        return $this->mediaManagement;
     }
 
     /**

@@ -30,7 +30,7 @@ class CreativeAdmin extends BaseAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
 
-        $collection->add('Media', $this->getRouterIdParameter().'/media-management');
+        $collection->add('sendMaterial', $this->getRouterIdParameter().'/send-material');
     }
 
 
@@ -50,16 +50,17 @@ class CreativeAdmin extends BaseAdmin
                 'data' => 'banner',
             ))
             ->add('name', 'text', array())
-            ->add('media', 'sonata_type_model', array(
-            ), array(
-                'placeholder' => 'Media Management'
-            ))
-            ->add('campaign')
             ->add('upload', 'sonata_media_type', array(
                 'provider' => 'sonata.media.provider.image',
                 'context' => 'default',
                 'required' => false,
             ))
+            ->add('mediaManagement', 'sonata_type_model', array(
+            ), array(
+                'placeholder' => 'Media Management'
+            ))
+            ->add('campaign')
+
         ;
     }
 
@@ -97,13 +98,8 @@ class CreativeAdmin extends BaseAdmin
                 'route' => array('name' => 'appcoachs_campaign_list')
                 )
             )
-
-            ->add('adgroup.name','url',array(
-                'label' => 'Adgroup',
-                )
-            )
-            ->add('media.mediaName','url',array(
-                    'label' => 'Media Name',
+            ->add('mediaManagement.mediaName','url',array(
+                    'label' => 'Media Management Name',
                     'route' => array('name' => 'material_mediamanagement_list')
                 )
             )
@@ -122,24 +118,6 @@ class CreativeAdmin extends BaseAdmin
                 )
             ))
         ;
-        $historicalCommissions = $this
-            ->getConfigurationPool()
-            ->getContainer()
-            ->get('doctrine_mongodb')
-            ->getRepository('AppcoachsManageBundle:Creative')
-            ->find($listMapper->get('id'));
-
-        if($this->isChild())
-        {
-            $contract = $this->getParent()->getObject($this->getParent()->getRequest()->get('id'));
-            $customFields = $contract->getCustomFields();
-            dump($customFields);exit;
-            foreach ($customFields as $customField) {
-                $listMapper->add($customField[0], null, array(
-                    'label' => $customField[1]
-                ));
-            }
-        }
     }
 
     protected function configureShowFields(ShowMapper $showMapper)

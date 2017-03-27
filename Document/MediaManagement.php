@@ -47,6 +47,11 @@ class MediaManagement extends Base
     /**
      * @MongoDB\String
      */
+    protected $advertising = "";
+
+    /**
+     * @MongoDB\String
+     */
     protected $dspToken = "";
 
     public function __toString()
