@@ -36,7 +36,7 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
             {
                 $api = $this->getContainer()->get('api.jrtt');
 
-                $this->getData($api,$v,$dm->getRepository('AppcoachsMaterialBundle:MediaMangement')->findOneBy(array('mediaName'=>'今日头条')));
+                $this->getData($api,$v,$dm->getRepository('AppcoachsMaterialBundle:MediaManagement')->findOneBy(array('mediaName'=>'今日头条')));
             }
         }
         // Now you can get repositories

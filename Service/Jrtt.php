@@ -83,7 +83,7 @@ class Jrtt
      */
     public function viewStatus($obj,$mediaManagement)
     {
-        $signature = $this->createSignature("http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$mediaManagement->getDspId()}&adid={$obj->getAdid()}",$obj->getMediaInfo->getDspToken());
+        $signature = $this->createSignature("http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$mediaManagement->getDspId()}&adid={$obj->getAdid()}",$mediaManagement->getDspToken());
         $url = "http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$mediaManagement->getDspId()}&adid={$obj->getAdid()}&signature=".$signature;
         $response = $this->client->request('get', $url);
         return $this->getResponse($response);
