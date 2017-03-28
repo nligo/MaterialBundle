@@ -14,10 +14,12 @@ class Jrtt
     const JRTT_URL = 'http://adx.toutiao.com';
 
     protected $client;
+    protected $container;
 
-    public function __construct($client)
+    public function __construct($client,$container)
     {
         $this->client = $client;
+        $this->container = $container;
     }
 
     function createSignature($url, $key) {
@@ -26,120 +28,73 @@ class Jrtt
 
     /**
      * @author coffey
+     *
+     * send Material to Jrtt
      * @param $obj
      * @return array|string
      */
     public function sendMaterial($obj,$creative_num = 1)
     {
-        dump($obj);exit;
+        $provider = $this->container->get($obj->getMedia()->getProviderName());
+        $fileUrl = $_SERVER['HTTP_HOST'].$provider->generatePublicUrl($obj->getMedia(), 'reference');
         $signature = $this->createSignature("http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/put?dspid={$obj->getMediaInfo->getDspId()}&creative_num={$creative_num}",$obj->getMediaInfo->getDspToken());
         $url = "http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/put?dspid={$obj->getMediaInfo->getDspId()}&creative_num={$creative_num}&signature=".$signature;
         $response = $this->client->request('post', $url, [
-            'json'=>array(
-                'creatives' => array (
-                    0 => array(
-                        'adid' => '1234567890',
-                        'width' => '690',
-                        'height' => '286',
-                        'title' => 'test',
-                        'source' => 'dsp',
-                        'ad_type' => '1',
-                        'nurl' => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg',
-                        'show_url' =>
-                            array (
-                                0 => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg',
-                            ),
-                        'click_url' =>
-                            array (
-                                0 => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg',
-                            ),
-                        'img_url' => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg.jpeg',
-                        'click_through_url' => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg.jpeg',
+                'json'=>array(
+                    'creatives' => array (
+                        0 => array(
+                            'adid' => $obj->getAdid(),
+                            'width' => '690',
+                            'height' => '286',
+                            'title' => 'test',
+                            'description' => 'coffey',
+                            'download_url' => $fileUrl,
+                            'source' => 'dsp',
+                            'ad_type' => '1',
+                            'app_type' => 'ios',
+                            'app_name' => 'coffey',
+                            'nurl' => 'http://platform.sandbox.appcoachs.com/uploads/media/default/58d9/e8/cd0671369ad0c75ca7c715b85da2743b3971edf2.jpeg',
+                            'show_url' =>
+                                array (
+                                    0 => 'http://platform.sandbox.appcoachs.com/uploads/media/default/58d9/e8/cd0671369ad0c75ca7c715b85da2743b3971edf2.jpeg',
+                                ),
+                            'click_url' =>
+                                array (
+                                    0 => 'http://platform.sandbox.appcoachs.com/uploads/media/default/58d9/e8/cd0671369ad0c75ca7c715b85da2743b3971edf2.jpeg',
+                                ),
+                            'img_url' => 'http://platform.sandbox.appcoachs.com/uploads/media/default/58d9/e8/cd0671369ad0c75ca7c715b85da2743b3971edf2.jpeg',
+                            'click_through_url' => 'http://platform.sandbox.appcoachs.com/uploads/media/default/58d9/e8/cd0671369ad0c75ca7c715b85da2743b3971edf2.jpeg',
+                        ),
                     ),
                 ),
-            ),
             ]
         );
-        dump(\GuzzleHttp\json_decode($this->getResponse($response)));exit;
         return $this->getResponse($response);
     }
+
 
     /**
      * @author  coffey
      *
-     * curl 函数
-     * @param string $url 请求的地址
-     * @param string $type POST/GET/post/get
-     * @param array $data 要传输的数据
-     * @param string $err_msg 可选的错误信息（引用传递）
-     * @param int $timeout 超时时间
-     * @param array 证书信息
+     * Check the material status
+     * @param $obj
+     * @param int $adid
+     * @return array|string
      */
-    function curl($url, $type, $data = false, &$err_msg = null, $timeout = 20, $cert_info = array())
+    public function viewStatus($obj)
     {
-        $type = strtoupper($type);
-        if ($type == 'GET' && is_array($data)) {
-            $data = http_build_query($data);
-        }
-
-        $option = array();
-
-        if ( $type == 'POST' ) {
-            $option[CURLOPT_POST] = 1;
-        }
-        if ($data) {
-            if ($type == 'POST') {
-                $option[CURLOPT_POSTFIELDS] = $data;
-            } elseif ($type == 'GET') {
-                $url = strpos($url, '?') !== false ? $url.'&'.$data :  $url.'?'.$data;
-            }
-        }
-
-        $option[CURLOPT_URL]            = $url;
-        $option[CURLOPT_FOLLOWLOCATION] = TRUE;
-        $option[CURLOPT_MAXREDIRS]      = 4;
-        $option[CURLOPT_RETURNTRANSFER] = TRUE;
-        $option[CURLOPT_TIMEOUT]        = $timeout;
-
-        //设置证书信息
-        if(!empty($cert_info) && !empty($cert_info['cert_file'])) {
-            $option[CURLOPT_SSLCERT]       = $cert_info['cert_file'];
-            $option[CURLOPT_SSLCERTPASSWD] = $cert_info['cert_pass'];
-            $option[CURLOPT_SSLCERTTYPE]   = $cert_info['cert_type'];
-        }
-
-        //设置CA
-        if(!empty($cert_info['ca_file'])) {
-            // 对认证证书来源的检查，0表示阻止对证书的合法性的检查。1需要设置CURLOPT_CAINFO
-            $option[CURLOPT_SSL_VERIFYPEER] = 1;
-            $option[CURLOPT_CAINFO] = $cert_info['ca_file'];
-        } else {
-            // 对认证证书来源的检查，0表示阻止对证书的合法性的检查。1需要设置CURLOPT_CAINFO
-            $option[CURLOPT_SSL_VERIFYPEER] = 0;
-        }
-
-        $ch = curl_init();
-        curl_setopt_array($ch, $option);
-        $response = curl_exec($ch);
-        $curl_no  = curl_errno($ch);
-        $curl_err = curl_error($ch);
-        curl_close($ch);
-
-        // error_log
-        if($curl_no > 0) {
-            if($err_msg !== null) {
-                $err_msg = '('.$curl_no.')'.$curl_err;
-            }
-        }
-        return $response;
+        $signature = $this->createSignature("http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$obj->getMediaInfo->getDspId()}&adid={$obj->getAdid()}",$obj->getMediaInfo->getDspToken());
+        $url = "http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$obj->getMediaInfo->getDspId()}&adid={$obj->getAdid()}&signature=".$signature;
+        $response = $this->client->request('get', $url);
+        return $this->getResponse($response);
     }
+
 
     public function getResponse($response)
     {
         if ($response->getStatusCode() == 200) {
             return json_encode($response->getBody()->getContents(), true);
         }
-
         return ['status_code' => 500, 'message' => 'request failed '];
     }
 }

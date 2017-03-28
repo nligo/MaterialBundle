@@ -22,11 +22,10 @@ class CreativeController extends Controller
         }
         $dm = $this->get('doctrine_mongodb')->getManager();
         $list = $dm->getRepository('AppcoachsMaterialBundle:Creative')->findAll();
+        $media = $dm->getRepository('AppcoachsManageBundle:Media')->find($list[3]->getMedia()->getId());
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
 
-        $id = $list[2]->getMedia()->getId();
-        dump($dm->getRepository('AppcoachsManageBundle:Media')->find($id));exit;
         // set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
         return $this->render($this->admin->getTemplate('list'), array(
@@ -59,6 +58,10 @@ class CreativeController extends Controller
 
     public function getData($api, $object)
     {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $object->setAdid(time().rand(5, 15));
+        $dm->persist($object);
+        $dm->flush($object);
         $result = json_decode($api->sendMaterial($object),true);
         if(is_string($result))
         {
@@ -67,6 +70,15 @@ class CreativeController extends Controller
         if(isset($result['status']) == "fail")
         {
             $this->addFlash('sonata_flash_error', '对方'.$result['msg']);
+            return $object;
+        }
+        if(isset($result['result'][0]['status']) && $result['result'][0]['status'] == 'success')
+        {
+
+            $object->setReviewStatus('Reviewing by Media');
+            $dm->persist($object);
+            $dm->flush($object);
+            $this->addFlash('sonata_flash_success', 'Material submitted successfully！');
             return $object;
         }
         $msg = isset($result['result'][0]['msg']) ? urldecode($result['result'][0]['msg']) : null;

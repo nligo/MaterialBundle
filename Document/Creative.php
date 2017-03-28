@@ -40,7 +40,7 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     /**
      * Creative Media
      *
-     * @MongoDB\ReferenceOne(targetDocument="Appcoachs\Bundle\MaterialBundle\Document\Media", cascade={"persist"})
+     * @MongoDB\ReferenceOne(targetDocument="Appcoachs\Bundle\ManageBundle\Document\Media", cascade={"persist"})
      */
     protected $media;
 
@@ -85,6 +85,13 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
      * @MongoDB\String
      */
     protected $reviewStatus;
+
+    /**
+     * Creative Adid
+     *
+     * @MongoDB\String
+     */
+    protected $adid;
 
     public function __construct()
     {
@@ -192,7 +199,7 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     /**
      * Set media
      *
-     * @param \Appcoachs\Bundle\MaterialBundle\Document\Media $media
+     * @param \Appcoachs\Bundle\ManageBundle\Document\Media $media
      * @return self
      */
     public function setMedia($media)
@@ -203,7 +210,7 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     /**
      * Get media
      *
-     * @param \Appcoachs\Bundle\MaterialBundle\Document\Media $media
+     * @param \Appcoachs\Bundle\ManageBundle\Document\Media $media
      */
     public function getMedia()
     {
@@ -337,5 +344,27 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     public function setCampaign($campaign)
     {
         $this->campaign = $campaign;
+    }
+
+    /**
+     * Set adid
+     *
+     * @param int $adid
+     * @return self
+     */
+    public function setAdid($adid)
+    {
+        $this->adid = $adid;
+        return $this;
+    }
+
+    /**
+     * Get adid
+     *
+     * @return int $adid
+     */
+    public function getAdid()
+    {
+        return $this->adid;
     }
 }

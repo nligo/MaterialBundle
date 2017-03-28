@@ -3,3 +3,4 @@ services:
         class: Appcoachs\Bundle\MaterialBundle\Service\Jrtt
         arguments:
           - "@api.http_client"
+          - "@service_container"
