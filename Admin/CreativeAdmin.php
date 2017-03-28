@@ -66,6 +66,18 @@ class CreativeAdmin extends BaseAdmin
         ;
     }
 
+    protected $datagridValues = array(
+
+        // display the first page (default = 1)
+        '_page' => 1,
+
+        // reverse order (default = 'ASC')
+        '_sort_order' => 'DESC',
+
+        // name of the ordered field (default = the model's id field, if any)
+        '_sort_by' => 'createdAt',
+    );
+
     //  input search condition
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -78,7 +90,6 @@ class CreativeAdmin extends BaseAdmin
     //  list fileds
     protected function configureListFields(ListMapper $listMapper)
     {
-
         $listMapper
             ->add('status', 'string',
                 array(

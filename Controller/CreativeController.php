@@ -22,7 +22,6 @@ class CreativeController extends Controller
         }
         $dm = $this->get('doctrine_mongodb')->getManager();
         $list = $dm->getRepository('AppcoachsMaterialBundle:Creative')->findAll();
-        $media = $dm->getRepository('AppcoachsManageBundle:Media')->find($list[3]->getMedia()->getId());
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
 
@@ -36,7 +35,12 @@ class CreativeController extends Controller
         ));
     }
 
-    public function sendMaterialAction($id = 0)
+    public function sendMaterialAction($id = null)
+    {
+        return $this->redirect($this->generateUrl('material_mediamanagement_list',array('cid'=>$id)));
+    }
+
+    public function sendMaterial1Action($id = 0)
     {
 
         $dm = $this->get('doctrine_mongodb')->getManager();
@@ -48,10 +52,10 @@ class CreativeController extends Controller
             return $this->redirect($this->generateUrl('material_creative_list'));
         }
         $creativeInfo->getMediaInfo = $managementInfo;
-        $api = $this->get('api.jrtt');
-        $this->getData($api,$creativeInfo);
-        return $this->redirect($this->generateUrl('material_creative_list'));
-        $ownerId = $creativeInfo->getOwner()->getId() ? $creativeInfo->getOwner()->getId() : 0;
+//        $api = $this->get('api.jrtt');
+//        $this->getData($api,$creativeInfo);
+//        return $this->redirect($this->generateUrl('material_creative_list'));
+//        $ownerId = $creativeInfo->getOwner()->getId() ? $creativeInfo->getOwner()->getId() : 0;
         $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.admin.material.mediamanagement')->generateUrl('list', array('cid' => $id));
         return new RedirectResponse($url);
     }
@@ -88,7 +92,7 @@ class CreativeController extends Controller
     public function getData($api, $object)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        if(!empty($object->getAdid()))
+        if(empty($object->getAdid()))
         {
             $object->setAdid(time().rand(5, 15));
             $dm->persist($object);
@@ -104,6 +108,7 @@ class CreativeController extends Controller
             $this->addFlash('sonata_flash_error', '对方'.$result['msg']);
             return $object;
         }
+
         if(isset($result['result'][0]['status']) && $result['result'][0]['status'] == 'success')
         {
 

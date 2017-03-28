@@ -34,7 +34,7 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
         {
             foreach ($list as $k=>$v)
             {
-                $api = $this->get('api.jrtt');
+                $api = $this->getContainer()->get('api.jrtt');
                 $this->getData($api,$v);
             }
         }
