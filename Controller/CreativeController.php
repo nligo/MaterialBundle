@@ -25,22 +25,18 @@ class CreativeController extends Controller
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
 
-        $actionForm = $this->get('form.factory')->createNamedBuilder('', 'form')
-            ->add('status','choice',array('label' => 'status','choices' => array('active' => 'active', 'pause' => 'pause'),))
-            ->getForm();
 
         // set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
         return $this->render($this->admin->getTemplate('list'), array(
             'action' => 'list',
             'form' => $formView,
-            'actionForm' => $actionForm->createView(),
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
             'list' => $list,
         ));
     }
 
-    public function sendMaterialAction($id)
+    public function sendMaterialAction($id = 0)
     {
 
         $dm = $this->get('doctrine_mongodb')->getManager();
@@ -55,9 +51,9 @@ class CreativeController extends Controller
         $api = $this->get('api.jrtt');
         $this->getData($api,$creativeInfo);
         return $this->redirect($this->generateUrl('material_creative_list'));
-//        $ownerId = $creativeInfo->getOwner()->getId() ? $creativeInfo->getOwner()->getId() : 0;
-//        $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.material.media')->generateUrl('listbyowner', array('id' => $ownerId));
-//        return new RedirectResponse($url);
+        $ownerId = $creativeInfo->getOwner()->getId() ? $creativeInfo->getOwner()->getId() : 0;
+        $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.admin.material.mediamanagement')->generateUrl('list', array('cid' => $id));
+        return new RedirectResponse($url);
     }
 
     public function getData($api, $object)

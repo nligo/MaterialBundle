@@ -29,8 +29,9 @@ class CreativeAdmin extends BaseAdmin
 
     protected function configureRoutes(RouteCollection $collection)
     {
-
+//        $collection->remove('create');
         $collection->add('sendMaterial', $this->getRouterIdParameter().'/send-material');
+
     }
 
 
@@ -78,11 +79,6 @@ class CreativeAdmin extends BaseAdmin
     {
 
         $listMapper
-            ->add('id', 'string',
-                array(
-                    'label' => 'ID'
-                )
-            )
             ->add('status', 'string',
                 array(
                     'label' => 'Status'
@@ -107,7 +103,9 @@ class CreativeAdmin extends BaseAdmin
             ->add('createdAt','date',
                 array('label' => 'Created At')
             )
-
+            ->add('reviewStatus','string', array(
+                'label' => 'Review Status'
+            ))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'edit' => array('label'=>'Media Management'),

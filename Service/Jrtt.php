@@ -37,28 +37,29 @@ class Jrtt
             'json'=>array(
                 'creatives' => array (
                     0 => array(
-                        'adid' => '23424',
+                        'adid' => '1234567890',
                         'width' => '690',
                         'height' => '286',
                         'title' => 'test',
                         'source' => 'dsp',
                         'ad_type' => '1',
-                        'nurl' => 'http://app.coachs.dev:1111/uploads/media/58d5/f7/thumb_58d8f7002d654f3f070041ab_default_small.jpeg',
+                        'nurl' => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg',
                         'show_url' =>
                             array (
-                                0 => 'http://app.coachs.dev:1111/uploads/media/58d5/f7/thumb_58d8f7002d654f3f070041ab_default_small.jpeg',
+                                0 => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg',
                             ),
                         'click_url' =>
                             array (
-                                0 => 'http://app.coachs.dev:1111/uploads/media/58d5/f7/thumb_58d8f7002d654f3f070041ab_default_small.jpeg',
+                                0 => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg',
                             ),
-                        'img_url' => 'http://app.coachs.dev:1111/uploads/media/58d5/f7/thumb_58d8f7002d654f3f070041ab_default_small.jpeg',
-                        'click_through_url' => 'http://app.coachs.dev:1111/uploads/media/58d5/f7/thumb_58d8f7002d654f3f070041ab_default_small.jpeg',
+                        'img_url' => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg.jpeg',
+                        'click_through_url' => 'http://app.coachs.dev:1111/uploads/media/default/58d9/d3/8610b8acbcfc73c62cbf2689d3011eaf29f8dbd4.jpeg.jpeg',
                     ),
                 ),
             ),
             ]
         );
+        dump(\GuzzleHttp\json_decode($this->getResponse($response)));exit;
         return $this->getResponse($response);
     }
 

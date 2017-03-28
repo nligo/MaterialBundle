@@ -80,6 +80,18 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     protected $status;
 
     /**
+     * Creative ReviewStatus
+     *
+     * @MongoDB\String
+     */
+    protected $reviewStatus;
+
+    public function __construct()
+    {
+        $this->setReviewStatus('Ready');
+    }
+
+    /**
      * Get id
      *
      * @return id $id
@@ -87,6 +99,28 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set reviewStatus
+     *
+     * @param string $reviewStatus
+     * @return self
+     */
+    public function setReviewStatus($reviewStatus)
+    {
+        $this->reviewStatus = $reviewStatus;
+        return $this;
+    }
+
+    /**
+     * Get reviewStatus
+     *
+     * @return string $reviewStatus
+     */
+    public function getReviewStatus()
+    {
+        return $this->reviewStatus;
     }
 
     /**

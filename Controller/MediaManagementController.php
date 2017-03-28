@@ -14,13 +14,41 @@ class MediaManagementController extends Controller
      *
      * @throws AccessDeniedException If access is not granted
      */
-    public function listByownerAction($adId = null)
+    public function listAction($cid = null)
     {
         if (false === $this->admin->isGranted('LIST')) {
             throw new AccessDeniedException();
         }
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $list = $dm->getRepository('AppcoachsManageBundle:MediaManagement')->findAll();
+        $list = $dm->getRepository('AppcoachsMaterialBundle:MediaManagement')->findAll();
+        $datagrid = $this->admin->getDatagrid();
+        $formView = $datagrid->getForm()->createView();
+        $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
+        return $this->render($this->admin->getTemplate('list'), array(
+            'action' => 'listbyowner',
+            'form' => $formView,
+            'csrf_token' => $this->getCsrfToken('sonata.batch'),
+            'list' => $list,
+            'cid' => $cid
+        ));
+    }
+
+    /**
+     * sendMaterial action.
+     *
+     * @return Response
+     *
+     * @throws AccessDeniedException If access is not granted
+     */
+    public function sendMaterialAction($id = 0 ,$cid = 0)
+    {
+        if (false === $this->admin->isGranted('LIST')) {
+            throw new AccessDeniedException();
+        }
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $list = $dm->getRepository('AppcoachsManageBundle:MediaManagement')->find($id);
+        $creativeInfo = $dm->getRepository('AppcoachsMaterialBundle:Creative')->find($cid);
+        dump($list);exit;
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
         $actionForm = $this->get('form.factory')->createNamedBuilder('', 'form')
