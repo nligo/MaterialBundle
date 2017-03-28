@@ -11,8 +11,6 @@ namespace Appcoachs\Bundle\MaterialBundle\Service;
 
 class Jrtt
 {
-    const JRTT_URL = 'http://adx.toutiao.com';
-
     protected $client;
     protected $container;
 
@@ -43,9 +41,9 @@ class Jrtt
                 'json'=>array(
                     'creatives' => array (
                         0 => array(
-                            'adid' => $obj->getAdid(),
+                            'adid'  => $obj->getAdid(),
                             'width' => '690',
-                            'height' => '286',
+                            'height'=> '286',
                             'title' => $obj->getName(),
                             'description' => 'coffey',
                             'download_url' => $fileUrl,
