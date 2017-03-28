@@ -31,6 +31,7 @@ class Jrtt
      */
     public function sendMaterial($obj,$creative_num = 1)
     {
+        dump($obj);exit;
         $signature = $this->createSignature("http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/put?dspid={$obj->getMediaInfo->getDspId()}&creative_num={$creative_num}",$obj->getMediaInfo->getDspToken());
         $url = "http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/put?dspid={$obj->getMediaInfo->getDspId()}&creative_num={$creative_num}&signature=".$signature;
         $response = $this->client->request('post', $url, [

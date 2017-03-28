@@ -25,7 +25,8 @@ class CreativeController extends Controller
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
 
-
+        $id = $list[2]->getMedia()->getId();
+        dump($dm->getRepository('AppcoachsManageBundle:Media')->find($id));exit;
         // set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
         return $this->render($this->admin->getTemplate('list'), array(
