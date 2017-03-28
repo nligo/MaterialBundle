@@ -35,7 +35,8 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
             foreach ($list as $k=>$v)
             {
                 $api = $this->getContainer()->get('api.jrtt');
-                $this->getData($api,$v);
+
+                $this->getData($api,$v,$dm->getRepository('AppcoachsMaterialBundle:MediaMangement')->findOneBy(array('mediaName'=>'今日头条')));
             }
         }
         // Now you can get repositories
@@ -45,10 +46,10 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
         $output->writeln('Operation Successfully！');
     }
 
-    private function getData($api, $object)
+    private function getData($api, $object,$mediaManagement)
     {
         $dm = $this->getContainer()->get('doctrine_mongodb')->getManager();
-        $result = json_decode($api->viewStatus($object),true);
+        $result = json_decode($api->viewStatus($object,$mediaManagement),true);
         if(is_string($result))
         {
             $result = json_decode($result,true);

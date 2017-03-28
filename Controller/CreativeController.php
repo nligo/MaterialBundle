@@ -52,10 +52,10 @@ class CreativeController extends Controller
             return $this->redirect($this->generateUrl('material_creative_list'));
         }
         $creativeInfo->getMediaInfo = $managementInfo;
-//        $api = $this->get('api.jrtt');
-//        $this->getData($api,$creativeInfo);
-//        return $this->redirect($this->generateUrl('material_creative_list'));
-//        $ownerId = $creativeInfo->getOwner()->getId() ? $creativeInfo->getOwner()->getId() : 0;
+        $api = $this->get('api.jrtt');
+        $this->getData($api,$creativeInfo);
+        return $this->redirect($this->generateUrl('material_creative_list'));
+        $ownerId = $creativeInfo->getOwner()->getId() ? $creativeInfo->getOwner()->getId() : 0;
         $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.admin.material.mediamanagement')->generateUrl('list', array('cid' => $id));
         return new RedirectResponse($url);
     }
@@ -70,9 +70,8 @@ class CreativeController extends Controller
             $this->addFlash('sonata_flash_error', 'Media Management info Not Found ');
             return $this->redirect($this->generateUrl('material_creative_list'));
         }
-        $creativeInfo->getMediaInfo = $managementInfo;
         $api = $this->get('api.jrtt');
-        $result = is_string(json_decode($api->viewStatus($creativeInfo),true)) ? json_decode(json_decode($api->viewStatus($creativeInfo),true),true) : '';
+        $result = is_string(json_decode($api->viewStatus($creativeInfo,$managementInfo),true)) ? json_decode(json_decode($api->viewStatus($creativeInfo),true),true) : '';
 
         if(isset($result['status']) && $result['status'] == "refused")
         {
