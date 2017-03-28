@@ -31,6 +31,7 @@ class CreativeAdmin extends BaseAdmin
     {
 //        $collection->remove('create');
         $collection->add('sendMaterial', $this->getRouterIdParameter().'/send-material');
+        $collection->add('viewAuditStatus', $this->getRouterIdParameter().'/view-audit-status');
 
     }
 

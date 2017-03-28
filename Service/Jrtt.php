@@ -46,7 +46,7 @@ class Jrtt
                             'adid' => $obj->getAdid(),
                             'width' => '690',
                             'height' => '286',
-                            'title' => 'test',
+                            'title' => $obj->getName(),
                             'description' => 'coffey',
                             'download_url' => $fileUrl,
                             'source' => 'dsp',
