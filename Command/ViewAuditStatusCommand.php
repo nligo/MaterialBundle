@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Process\Process;
 
 class ViewAuditStatusCommand extends ContainerAwareCommand
 {
@@ -30,6 +32,7 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
             '============',// Another line
         ]);
 
+
         $dm = $this->getContainer()->get('doctrine_mongodb')->getManager();
         $list = $dm->getRepository('AppcoachsMaterialBundle:Creative')->findBy(array('reviewStatus'=>'Reviewing by Media'));
         if(!empty($list))
@@ -42,22 +45,45 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
             }
         }
         $returnArray = array();
-        $passedList = $dm->getRepository('AppcoachsMaterialBundle:Creative')->findBy(array('reviewStatus'=>'Passed'));
+        $passedList = $dm->getRepository('AppcoachsMaterialBundle:Creative')->findBy(array('reviewStatus'=>'Passed'),array('createdAt'=>'DESC'));
         if(!empty($passedList))
         {
             foreach ($passedList as $key=>$val)
             {
-                $returnArray['image_ads'][$k]['id'] = $val->getId();
-                $passedInfo = $dm->getRepository('AppcoachsMaterialBundle:Toutiaologs')->find(array('adId'=>$val->getAdId()));
+                $returnArray['image_ads'][$key]['id'] = $val->getId();
+                $passedInfo = $dm->getRepository('AppcoachsMaterialBundle:Toutiaologs')->findOneByAdId(intval($val->getAdId()));
                 if(!empty($passedInfo))
                 {
-                    $returnArray['image_ads'][$k]['width'] = $passedInfo->getWidth() ? $passedInfo->getWidth() : "";
-                    $returnArray['image_ads'][$k]['height'] = $passedInfo->getHeight() ? $passedInfo->getHeight() : "";
-                    $returnArray['image_ads'][$k]['url'] = $passedInfo->getClickThroughUrl() ? $passedInfo->getClickThroughUrl() : "";
+                    $returnArray['image_ads'][$key]['width'] = $passedInfo->getWidth() ? $passedInfo->getWidth() : "";
+                    $returnArray['image_ads'][$key]['height'] = $passedInfo->getHeight() ? $passedInfo->getHeight() : "";
+                    $returnArray['image_ads'][$key]['url'] = $passedInfo->getClickThroughUrl() ? $passedInfo->getClickThroughUrl() : "";
                 }
+            }
+            $result = new JsonResponse($returnArray);
+            if(file_exists($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/site_resources.json'))
+            {
+                file_put_contents($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/site_resources.json', $result);
+            }
+            else
+            {
+                $fs = new Filesystem();
+                $fs->mkdir($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/');
+                file_put_contents($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/site_resources.json', $result);
 
             }
+            $process = new Process('aws s3 cp /home/deployer/platform/web/myconfig/site_resources.json s3://m.config/site_resources.json');
+            $process->run(function ($type, $buffer) {
+                if (Process::ERR === $type) {
+                    echo 'ERR > '.$buffer;
+                } else {
+                    echo 'OUT > '.$buffer;
+                }
+            });
+
         }
+
+
+
         $output->writeln('Operation Successfully！');
     }
 
@@ -92,17 +118,6 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
             $toutiaologs->setStatus(isset($result['status']) ? $result['status'] : '');
             $dm->persist($toutiaologs);
             $dm->flush($toutiaologs);
-//            if(file_exists($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/site_resources.json'))
-//            {
-//                file_put_contents($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
-//            }
-//            else
-//            {
-//                $fs = new Filesystem();
-//                $fs->mkdir($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/');
-//                file_put_contents($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
-//
-//            }
         }
         $dm->persist($object);
         $dm->flush($object);

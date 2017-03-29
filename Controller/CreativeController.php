@@ -22,6 +22,26 @@ class CreativeController extends Controller
             throw new AccessDeniedException();
         }
         $dm = $this->get('doctrine_mongodb')->getManager();
+        $returnArray = array();
+        $passedList = $dm->getRepository('AppcoachsMaterialBundle:Creative')->findBy(array('reviewStatus'=>'Passed'));
+        if(!empty($passedList))
+        {
+            foreach ($passedList as $key=>$val)
+            {
+                $returnArray['image_ads'][$key]['id'] = $val->getId();
+                $passedInfo = $dm->getRepository('AppcoachsMaterialBundle:Toutiaologs')->findOneByAdId(intval($val->getAdId()));
+                if(!empty($passedInfo))
+                {
+                    $returnArray['image_ads'][$key]['width'] = $passedInfo->getWidth() ? $passedInfo->getWidth() : "";
+                    $returnArray['image_ads'][$key]['height'] = $passedInfo->getHeight() ? $passedInfo->getHeight() : "";
+                    $returnArray['image_ads'][$key]['url'] = $passedInfo->getClickThroughUrl() ? $passedInfo->getClickThroughUrl() : "";
+                }
+            }
+            dump($this->get('aws.s3')->getArguments());exit;
+            file_put_contents('s3://m.config/site_resources.json', json_encode($returnArray));
+
+        }
+        return new JsonResponse($returnArray);
         $list = $dm->getRepository('AppcoachsMaterialBundle:Creative')->findAll();
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
