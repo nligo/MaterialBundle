@@ -1,38 +1,25 @@
 <?php
 
-/*
- * This file is the advertisers qualification admin.
- *
- * (c)  coffey  <http://www.symfonychina.org>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-namespace Appcoachs\Bundle\MaterialBundle\Admin;
+namespace Appcoachs\Bundle\ManageBundle\Admin;
 
-use Appcoachs\Bundle\ManageBundle\Admin\BaseAdmin;
 use Appcoachs\Bundle\ManageBundle\Document\QualificationReviewed;
+use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 
-/**
- * @author  coffey  <coffey.gao@appcoachs.com>
- * Class QualificationInfoAdmin
- * @package Appcoachs\Bundle\MaterialBundle\Admin
- */
-class QualificationInfoAdmin extends BaseAdmin
+class QualificationAdmin extends Admin
 {
     const  IQIYI = 'iqiyi';
     const  YOUKU = 'youku';
     const  PPTV = 'pptv';
-    const  JRTT = '今日头条';
 
     protected $baseRouteName = 'appcoachs_qualification';
 
     protected function configureRoutes(RouteCollection $collection)
     {
+        $collection->add('redirect_qualification_review', $this->getRouterIdParameter().'/redirect_qualification_review');
+        $collection->remove('export');
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -49,13 +36,12 @@ class QualificationInfoAdmin extends BaseAdmin
                 'actions' => array(
                     'edit' => array(
                     ),
-//                    'redirect_qualification_review' => array(
-//                        'template' => 'AppcoachsMaterialBundle:QualificationInfoAdmin:qualification_review.html.twig',
-//                    ),
+                    'redirect_qualification_review' => array(
+                        'template' => 'AppcoachsManageBundle:QualificationAdmin:qualification_review.html.twig',
+                    ),
                 ),
             ));
     }
-
 
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -110,7 +96,6 @@ class QualificationInfoAdmin extends BaseAdmin
             self::IQIYI,
             self::YOUKU,
             self::PPTV,
-            self::JRTT
         ];
         foreach ($medias as $media) {
             $review = new QualificationReviewed();
@@ -124,5 +109,4 @@ class QualificationInfoAdmin extends BaseAdmin
         $dm->flush();
         parent::postPersist($object);
     }
-
 }

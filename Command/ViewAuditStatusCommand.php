@@ -64,20 +64,30 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
         {
             $object->setReviewStatus('Passed');
             $toutiaologs = !empty($dm->getRepository('AppcoachsMaterialBundle:Toutiaologs')->findOneBy(array('adId'=>$object->getAdId()))) ? $dm->getRepository('AppcoachsMaterialBundle:Toutiaologs')->findOneBy(array('adId'=>$object->getAdId())) : new Toutiaologs();
-            $toutiaologs->setAdId($result['adid']);
-            $toutiaologs->setTargetUrl($result['targetUrl']);
-            $toutiaologs->setTitle($result['title']);
-            $toutiaologs->setSourceAvatar($result['source_avatar']);
-            $toutiaologs->setSource($result['source']);
-            $toutiaologs->setReason($result['reason']);
-            $toutiaologs->setImgUrl(json_encode($result['image_url']));
-            $toutiaologs->setClickThroughUrl($result['click_through_url']);
-            $toutiaologs->setQualification($result['qualification']);
-            $toutiaologs->setWidth($result['width']);
-            $toutiaologs->setHeight($result['height']);
-            $toutiaologs->setStatus($result['status']);
+            $toutiaologs->setAdId(isset($result['adid']) ? $result['adid'] : '');
+            $toutiaologs->setTargetUrl(isset($result['targetUrl']) ? $result['targetUrl'] : '');
+            $toutiaologs->setTitle(isset($result['title']) ? $result['title'] : '');
+            $toutiaologs->setSourceAvatar(isset($result['source_avatar']) ? $result['source_avatar'] : '');
+            $toutiaologs->setSource(isset($result['source']) ? $result['source'] : '');
+            $toutiaologs->setReason(isset($result['reason']) ? $result['reason'] : '');
+            $toutiaologs->setImgUrl(isset($result['image_url']) ? json_encode($result['image_url']) : '');
+            $toutiaologs->setClickThroughUrl(isset($result['click_through_url']) ? $result['click_through_url'] : '');
+            $toutiaologs->setQualification(isset($result['qualification']) ? $result['qualification'] : '');
+            $toutiaologs->setWidth(isset($result['width']) ? $result['width'] : '');
+            $toutiaologs->setHeight(isset($result['height']) ? $result['height'] : '');
+            $toutiaologs->setStatus(isset($result['status']) ? $result['status'] : '');
             $dm->persist($toutiaologs);
             $dm->flush($toutiaologs);
+            if(file_exists($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/site_resources.json'))
+            {
+                file_put_contents($this->getContainer()->getParameter('kernel.root_dir').'/../web/test/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
+            }
+            else
+            {
+                $fs = new Filesystem();
+                $fs->mkdir($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/');
+                file_put_contents($this->getContainer()->getParameter('kernel.root_dir').'/../web/test/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
+            }
         }
         $dm->persist($object);
         $dm->flush($object);

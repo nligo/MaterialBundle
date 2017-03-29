@@ -2,6 +2,7 @@
 
 namespace Appcoachs\Bundle\MaterialBundle\Document;
 
+
 use Appcoachs\Bundle\ManageBundle\Document\Base;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 

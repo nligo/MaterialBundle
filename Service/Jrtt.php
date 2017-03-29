@@ -9,6 +9,9 @@
 namespace Appcoachs\Bundle\MaterialBundle\Service;
 
 
+use Appcoachs\Bundle\MaterialBundle\Document\Toutiaologs;
+use Symfony\Component\Filesystem\Filesystem;
+
 class Jrtt
 {
     protected $client;
@@ -84,6 +87,42 @@ class Jrtt
         $signature = $this->createSignature("http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$mediaManagement->getDspId()}&adid={$obj->getAdid()}",$mediaManagement->getDspToken());
         $url = "http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$mediaManagement->getDspId()}&adid={$obj->getAdid()}&signature=".$signature;
         $response = $this->client->request('get', $url);
+//        $jsonresult = json_decode($this->getResponse($response),true);
+//        if(is_string($jsonresult))
+//        {
+//            $result = json_decode($jsonresult,true);
+//            if($result['status'] == "refused")
+//            {
+//                $dm = $this->container->get('doctrine_mongodb')->getManager();
+//                $toutiaologs = !empty($dm->getRepository('AppcoachsMaterialBundle:Toutiaologs')->findOneBy(array('adId'=>$obj->getAdId()))) ? $dm->getRepository('AppcoachsMaterialBundle:Toutiaologs')->findOneBy(array('adId'=>$obj->getAdId())) : new Toutiaologs();
+//                $toutiaologs->setAdId(isset($result['adid']) ? $result['adid'] : '');
+//                $toutiaologs->setTargetUrl(isset($result['targetUrl']) ? $result['targetUrl'] : '');
+//                $toutiaologs->setTitle(isset($result['title']) ? $result['title'] : '');
+//                $toutiaologs->setSourceAvatar(isset($result['source_avatar']) ? $result['source_avatar'] : '');
+//                $toutiaologs->setSource(isset($result['source']) ? $result['source'] : '');
+//                $toutiaologs->setReason(isset($result['reason']) ? $result['reason'] : '');
+//                $toutiaologs->setImgUrl(isset($result['image_url']) ? json_encode($result['image_url']) : '');
+//                $toutiaologs->setClickThroughUrl(isset($result['click_through_url']) ? $result['click_through_url'] : '');
+//                $toutiaologs->setQualification(isset($result['qualification']) ? $result['qualification'] : '');
+//                $toutiaologs->setWidth(isset($result['width']) ? $result['width'] : '');
+//                $toutiaologs->setHeight(isset($result['height']) ? $result['height'] : '');
+//                $toutiaologs->setStatus(isset($result['status']) ? $result['status'] : '');
+//                $dm->persist($toutiaologs);
+//                $dm->flush($toutiaologs);
+//                if(file_exists($this->container->getParameter('kernel.root_dir').'/../web/test/site_resources.json'))
+//                {
+//                    file_put_contents($this->container->getParameter('kernel.root_dir').'/../web/test/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
+//                }
+//                else
+//                {
+//                    $fs = new Filesystem();
+//                    $fs->mkdir($this->container->getParameter('kernel.root_dir').'/../web/test/');
+//                    file_put_contents($this->container->getParameter('kernel.root_dir').'/../web/test/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
+//                }
+//
+//            }
+//        }
+
         return $this->getResponse($response);
     }
 

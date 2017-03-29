@@ -70,7 +70,7 @@ class CreativeController extends Controller
             return $this->redirect($this->generateUrl('material_creative_list'));
         }
         $api = $this->get('api.jrtt');
-        $result = is_string(json_decode($api->viewStatus($creativeInfo,$managementInfo),true)) ? json_decode(json_decode($api->viewStatus($creativeInfo),true),true) : '';
+        $result = is_string(json_decode($api->viewStatus($creativeInfo,$managementInfo),true)) ? json_decode(json_decode($api->viewStatus($creativeInfo,$managementInfo),true),true) : '';
 
         if(isset($result['status']) && $result['status'] == "refused")
         {
