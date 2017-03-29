@@ -24,7 +24,6 @@ class CreativeController extends Controller
         $list = $dm->getRepository('AppcoachsMaterialBundle:Creative')->findAll();
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
-
         // set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
         return $this->render($this->admin->getTemplate('list'), array(
@@ -42,7 +41,6 @@ class CreativeController extends Controller
 
     public function sendMaterial1Action($id = 0)
     {
-
         $dm = $this->get('doctrine_mongodb')->getManager();
         $creativeInfo = $dm->getRepository('AppcoachsMaterialBundle:Creative')->find($id);
         $managementInfo = $dm->getRepository('AppcoachsMaterialBundle:MediaManagement')->find($creativeInfo->getMediaManagement()->getId());
@@ -51,6 +49,7 @@ class CreativeController extends Controller
             $this->addFlash('sonata_flash_error', 'Media Management info Not Found ');
             return $this->redirect($this->generateUrl('material_creative_list'));
         }
+
         $creativeInfo->getMediaInfo = $managementInfo;
         $api = $this->get('api.jrtt');
         $this->getData($api,$creativeInfo);

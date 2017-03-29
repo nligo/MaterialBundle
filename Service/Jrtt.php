@@ -84,7 +84,6 @@ class Jrtt
         $signature = $this->createSignature("http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$mediaManagement->getDspId()}&adid={$obj->getAdid()}",$mediaManagement->getDspToken());
         $url = "http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$mediaManagement->getDspId()}&adid={$obj->getAdid()}&signature=".$signature;
         $response = $this->client->request('get', $url);
-        dump(json_decode($this->getResponse($response),true));exit;
         return $this->getResponse($response);
     }
 

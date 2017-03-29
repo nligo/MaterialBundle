@@ -294,7 +294,7 @@ class Creative extends \Appcoachs\Bundle\ManageBundle\Document\Base
     }
 
     /**
-     * Set owner
+     * Set Adgroup
      *
      * @param \Appcoachs\Bundle\ManageBundle\Document\Adgroup $adgroup
      * @return self

@@ -90,6 +90,7 @@ class CreativeAdmin extends BaseAdmin
     //  list fileds
     protected function configureListFields(ListMapper $listMapper)
     {
+
         $listMapper
             ->add('status', 'string',
                 array(
@@ -111,7 +112,10 @@ class CreativeAdmin extends BaseAdmin
                     'route' => array('name' => 'material_mediamanagement_list')
                 )
             )
-
+            ->add('adgroup.name','string',array(
+                    'label' => 'AdgroupName',
+                )
+            )
             ->add('createdAt','date',
                 array('label' => 'Created At')
             )

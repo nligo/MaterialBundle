@@ -90,6 +90,9 @@ class MediaManagementController extends Controller
             return $this->redirect($this->generateUrl('material_mediamanagement_list',array('id'=>$id,'cid'=>$cid)));
         }
         $creativeInfo->getMediaInfo = $info;
+        $creativeInfo->setMediaManagement($info);
+        $dm->persist($creativeInfo);
+        $dm->flush($creativeInfo);
         $api = $this->get('api.jrtt');
         $this->getData($api,$creativeInfo);
         return $this->redirect($this->generateUrl('material_mediamanagement_list',array('id'=>$id,'cid'=>$cid)));
@@ -107,7 +110,6 @@ class MediaManagementController extends Controller
         {
             $info->setReviewStatus('Rejected by Media');
         }
-
         $dm->persist($info);
         $dm->flush($info);
         $url = $this->get('sonata.admin.pool')->getAdminByAdminCode('appcoachs.material.media')->generateUrl('listbyowner', array('id' => $info->getOwner()->getId()));
