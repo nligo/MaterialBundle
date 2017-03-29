@@ -1,5 +1,4 @@
 {#{% if admin.isGranted('EDIT', object) and admin.hasRoute('edit') %}#}
-{{ dump(object.campaign) }}
 {% if object.reviewStatus is defined %}
     {% if object.reviewStatus == "Ready" or object.reviewStatus == "Reviewing by Media"  %}
         <a href="{{ admin.generateObjectUrl('sendMaterial', object) }}" class="btn btn-sm  edit_link" >
@@ -16,10 +15,4 @@
     {% endif %}
 {% endif %}
 
-
-
-<a href="{{ admin.generateObjectUrl('viewAuditStatus', object) }}" class="btn btn-sm  info_link" >
-    <i class="glyphicon glyphicon-info"></i>
-    View Status
-</a>
 {#{% endif %}#}
