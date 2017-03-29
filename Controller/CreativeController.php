@@ -60,34 +60,6 @@ class CreativeController extends Controller
         return new RedirectResponse($url);
     }
 
-    public function viewAuditStatusAction($id = 0)
-    {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $creativeInfo = $dm->getRepository('AppcoachsMaterialBundle:Creative')->find($id);
-        $managementInfo = $dm->getRepository('AppcoachsMaterialBundle:MediaManagement')->find($creativeInfo->getMediaManagement()->getId());
-        if(empty($managementInfo))
-        {
-            $this->addFlash('sonata_flash_error', 'Media Management info Not Found ');
-            return $this->redirect($this->generateUrl('material_creative_list'));
-        }
-        $api = $this->get('api.jrtt');
-        $result = is_string(json_decode($api->viewStatus($creativeInfo,$managementInfo),true)) ? json_decode(json_decode($api->viewStatus($creativeInfo),true),true) : '';
-
-        if(isset($result['status']) && $result['status'] == "refused")
-        {
-            $this->addFlash('sonata_flash_success', 'Material was returned ！');
-        }
-        if(isset($result['status']) && $result['status'] == "approved")
-        {
-            $this->addFlash('sonata_flash_success', 'Material has passed !');
-        }
-        if(isset($result['status']) && $result['status'] == "unaudited")
-        {
-            $this->addFlash('sonata_flash_error', 'Material is under review !');
-        }
-        return $this->redirect($this->generateUrl('material_creative_list'));
-    }
-
     public function getData($api, $object)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();

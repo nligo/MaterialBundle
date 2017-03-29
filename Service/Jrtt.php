@@ -34,7 +34,8 @@ class Jrtt
     public function sendMaterial($obj,$creative_num = 1)
     {
         $provider = $this->container->get($obj->getMedia()->getProviderName());
-        $fileUrl = $_SERVER['HTTP_HOST'].$provider->generatePublicUrl($obj->getMedia(), 'reference');
+        $fileUrl = $this->container->getParameter('material.file_url').str_replace('/uploads/media/default','',$provider->generatePublicUrl($obj->getMedia(), 'reference'));
+        dump($fileUrl);exit;
         $signature = $this->createSignature("http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/put?dspid={$obj->getMediaInfo->getDspId()}&creative_num={$creative_num}",$obj->getMediaInfo->getDspToken());
         $url = "http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/put?dspid={$obj->getMediaInfo->getDspId()}&creative_num={$creative_num}&signature=".$signature;
         $response = $this->client->request('post', $url, [

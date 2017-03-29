@@ -120,7 +120,6 @@ class CreativeAdmin extends BaseAdmin
             ))
             ->add('_action', 'actions', array(
                 'actions' => array(
-                    'edit' => array('label'=>'Media Management'),
                     'Media Management' => array(
                         'template' => 'AppcoachsMaterialBundle:CreativeAdmin:media.html.twig'
                     )
