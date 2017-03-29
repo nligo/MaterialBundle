@@ -81,9 +81,6 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
             });
 
         }
-
-
-
         $output->writeln('Operation Successfully！');
     }
 
