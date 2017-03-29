@@ -89,7 +89,10 @@ class Toutiaologs extends Base
      */
     protected $imgUrl;
 
-
+    /**
+     * @MongoDB\String
+     */
+    protected $returnJson;
 
     public function getId()
     {
@@ -381,5 +384,27 @@ class Toutiaologs extends Base
     public function getImgUrl()
     {
         return $this->imgUrl;
+    }
+
+    /**
+     * Set returnJson
+     *
+     * @param string $returnJson
+     * @return self
+     */
+    public function setreturnJson($returnJson)
+    {
+        $this->returnJson = $returnJson;
+        return $this;
+    }
+
+    /**
+     * Get returnJson
+     *
+     * @return string $imgUrl
+     */
+    public function getreturnJson()
+    {
+        return $this->returnJson;
     }
 }

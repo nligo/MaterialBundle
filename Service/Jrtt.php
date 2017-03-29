@@ -87,6 +87,7 @@ class Jrtt
         $signature = $this->createSignature("http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$mediaManagement->getDspId()}&adid={$obj->getAdid()}",$mediaManagement->getDspToken());
         $url = "http://adx.toutiao.com/adxbuyer/api/v1.0/creatives/get?dspid={$mediaManagement->getDspId()}&adid={$obj->getAdid()}&signature=".$signature;
         $response = $this->client->request('get', $url);
+
 //        $jsonresult = json_decode($this->getResponse($response),true);
 //        if(is_string($jsonresult))
 //        {
@@ -109,20 +110,19 @@ class Jrtt
 //                $toutiaologs->setStatus(isset($result['status']) ? $result['status'] : '');
 //                $dm->persist($toutiaologs);
 //                $dm->flush($toutiaologs);
-//                if(file_exists($this->container->getParameter('kernel.root_dir').'/../web/test/site_resources.json'))
+//                if(file_exists($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/site_resources.json'))
 //                {
-//                    file_put_contents($this->container->getParameter('kernel.root_dir').'/../web/test/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
+//                    file_put_contents($this->getContainer()->getParameter('kernel.root_dir').'/../web/test/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
 //                }
 //                else
 //                {
 //                    $fs = new Filesystem();
-//                    $fs->mkdir($this->container->getParameter('kernel.root_dir').'/../web/test/');
-//                    file_put_contents($this->container->getParameter('kernel.root_dir').'/../web/test/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
+//                    $fs->mkdir($this->getContainer()->getParameter('kernel.root_dir').'/../web/myconfig/');
+//                    file_put_contents($this->getContainer()->getParameter('kernel.root_dir').'/../web/test/site_resources.json', json_encode($result,JSON_UNESCAPED_UNICODE));
 //                }
-//
-//            }
+//                }
 //        }
-
+//        exit;
         return $this->getResponse($response);
     }
 
