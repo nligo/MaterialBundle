@@ -174,4 +174,26 @@ class MediaManagement extends Base
     {
         return $this->mediaName;
     }
+
+    /**
+     * Set advertising
+     *
+     * @param string $advertising
+     * @return self
+     */
+    public function setAdvertising($advertising)
+    {
+        $this->advertising = $advertising;
+        return $this;
+    }
+
+    /**
+     * Get advertising
+     *
+     * @return string $advertising
+     */
+    public function getAdvertising()
+    {
+        return $this->advertising;
+    }
 }

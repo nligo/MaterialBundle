@@ -2,6 +2,7 @@
 
 namespace Appcoachs\Bundle\MaterialBundle\Command;
 
+use Appcoachs\Bundle\MaterialBundle\Document\Toutiaologs;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -62,6 +63,21 @@ class ViewAuditStatusCommand extends ContainerAwareCommand
         if(isset($result['status']) == "approved")
         {
             $object->setReviewStatus('Passed');
+            $toutiaologs = !empty($dm->getRepository('AppcoachsMaterialBundle:Toutiaologs')->findOneBy(array('adId'=>$object->getAdId()))) ? $dm->getRepository('AppcoachsMaterialBundle:Toutiaologs')->findOneBy(array('adId'=>$object->getAdId())) : new Toutiaologs();
+            $toutiaologs->setAdId($result['adid']);
+            $toutiaologs->setTargetUrl($result['targetUrl']);
+            $toutiaologs->setTitle($result['title']);
+            $toutiaologs->setSourceAvatar($result['source_avatar']);
+            $toutiaologs->setSource($result['source']);
+            $toutiaologs->setReason($result['reason']);
+            $toutiaologs->setImgUrl(json_encode($result['image_url']));
+            $toutiaologs->setClickThroughUrl($result['click_through_url']);
+            $toutiaologs->setQualification($result['qualification']);
+            $toutiaologs->setWidth($result['width']);
+            $toutiaologs->setHeight($result['height']);
+            $toutiaologs->setStatus($result['status']);
+            $dm->persist($toutiaologs);
+            $dm->flush($toutiaologs);
         }
         $dm->persist($object);
         $dm->flush($object);
